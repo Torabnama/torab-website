@@ -1,28 +1,191 @@
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>انتخاب صندلی | تراب</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .seat-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            margin: 24px 0;
+            color: #b8b3a7;
+            font-size: 13px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .legend-seat {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            border-radius: 4px;
+            background: #39362e;
+        }
+
+        .legend-seat.available {
+            background: #39362e;
+            border: 1px solid #b7a36a;
+        }
+
+        .legend-seat.chosen {
+            background: #d6b14d;
+        }
+
+        .legend-seat.unavailable {
+            background: #633d3d;
+        }
+
+        .stage {
+            max-width: 420px;
+            margin: 28px auto;
+            padding: 12px;
+            text-align: center;
+            color: #d6b14d;
+            background: #201e19;
+            border: 1px solid #625333;
+            border-radius: 8px 8px 35px 35px;
+        }
+
+        .seat-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+        .row-label {
+            width: 22px;
+            color: #b7a36a;
+            font-size: 13px;
+        }
+
+        .seats {
+            overflow-x: auto;
+            padding: 8px 0 20px;
+        }
+
+        .seat {
+            width: 36px;
+            height: 34px;
+            flex-shrink: 0;
+            border: 1px solid #b7a36a;
+            border-radius: 7px 7px 4px 4px;
+            background: #39362e;
+            color: #f1eee7;
+            font: inherit;
+            font-size: 12px;
+            cursor: pointer;
+            transition: .15s;
+        }
+
+        .seat:hover:not(:disabled) {
+            border-color: #d6b14d;
+            transform: translateY(-2px);
+        }
+
+        .seat.selected {
+            background: #d6b14d;
+            color: #111;
+            border-color: #d6b14d;
+        }
+
+        .seat.sold {
+            background: #633d3d;
+            border-color: #633d3d;
+            color: #ddd;
+            cursor: not-allowed;
+            opacity: .7;
+        }
+
+        .seat:focus-visible {
+            outline: 2px solid #f1eee7;
+            outline-offset: 2px;
+        }
+
+        .seat-summary {
+            margin: 22px 0;
+            padding: 16px;
+            border: 1px solid #39362e;
+            border-radius: 10px;
+            background: #121210;
+        }
+
+        .seat-summary p + p {
+            margin-top: 6px;
+        }
+
+        .seat-error {
+            margin-top: 12px;
+            color: #e6a1a1;
+            font-size: 13px;
+        }
+
+        .continue-button {
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+
+        @media (max-width: 420px) {
+            .seat-row {
+                gap: 5px;
+            }
+
+            .seat {
+                width: 30px;
+                height: 31px;
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+
+<body>
 <header>
     <a href="index.html" class="logo">تراب <span>گروه هنری نمایشی</span></a>
 </header>
 
 <main class="page">
     <h1>انتخاب صندلی</h1>
-    <p class="page-intro">صندلی موردنظر خود را انتخاب کنید.</p>
+    <p class="page-intro">صندلی‌های موردنظرت رو انتخاب کن.</p>
+
+    <p id="performanceInfo"></p>
 
     <div class="stage">صحنه</div>
 
-    <div id="seats" class="seats"></div>
+    <div class="seat-legend">
+        <span class="legend-item"><span class="legend-seat available"></span> آزاد</span>
+        <span class="legend-item"><span class="legend-seat chosen"></span> انتخاب‌شده</span>
+        <span class="legend-item"><span class="legend-seat unavailable"></span> فروخته‌شده</span>
+    </div>
 
-    <p id="selectedSeat">هنوز صندلی انتخاب نشده</p>
+    <div id="seats" class="seats" aria-label="نقشه صندلی‌های سالن"></div>
 
-    <a href="buyer.html" class="btn">ادامه</a>
+    <div class="seat-summary">
+        <p id="selectedSeat" aria-live="polite">هنوز صندلی انتخاب نشده.</p>
+        <p id="seatCount">تعداد صندلی: ۰</p>
+    </div>
+
+    <p id="seatError" class="seat-error" role="alert" hidden></p>
+
+    <button id="continueButton" class="btn continue-button" type="button">
+        ادامه
+    </button>
 </main>
 
 <footer>
@@ -30,36 +193,113 @@
 </footer>
 
 <script>
-const container = document.getElementById("seats");
-const selected = document.getElementById("selectedSeat");
+    const container = document.getElementById("seats");
+    const selectedText = document.getElementById("selectedSeat");
+    const seatCount = document.getElementById("seatCount");
+    const seatError = document.getElementById("seatError");
+    const continueButton = document.getElementById("continueButton");
+    const performanceInfo = document.getElementById("performanceInfo");
 
-const sold = ["A1", "B4", "D7"];
+    // این موارد فعلاً نمونه‌اند؛ بعداً از دیتابیس خوانده می‌شوند.
+    const sold = ["A1", "B4", "D7"];
 
-["A","B","C","D","E","F"].forEach(row => {
-    for(let i = 1; i <= 8; i++){
-        const seat = document.createElement("button");
-        const id = row + i;
+    const ticketChoice = JSON.parse(
+        sessionStorage.getItem("torabTicketChoice") || "null"
+    );
 
-        seat.textContent = i;
-        seat.className = "seat";
+    const selectedSeats = new Set();
 
-        if(sold.includes(id)){
-            seat.classList.add("sold");
-            seat.disabled = true;
+    if (ticketChoice) {
+        performanceInfo.textContent =
+            "سانس انتخاب‌شده: " +
+            ticketChoice.date + "، ساعت " + ticketChoice.time;
+    } else {
+        performanceInfo.textContent =
+            "هنوز سانسی انتخاب نکرده‌ای.";
+    }
+
+    ["A", "B", "C", "D", "E", "F"].forEach(row => {
+        const rowElement = document.createElement("div");
+        rowElement.className = "seat-row";
+
+        const label = document.createElement("span");
+        label.className = "row-label";
+        label.textContent = row;
+        rowElement.appendChild(label);
+
+        for (let i = 1; i <= 8; i++) {
+            const id = row + i;
+            const seat = document.createElement("button");
+
+            seat.type = "button";
+            seat.textContent = i;
+            seat.className = "seat";
+            seat.setAttribute("aria-label", "صندلی " + id);
+
+            if (sold.includes(id)) {
+                seat.classList.add("sold");
+                seat.disabled = true;
+                seat.setAttribute("aria-label", "صندلی " + id + " فروخته‌شده");
+            }
+
+            seat.addEventListener("click", () => {
+                if (selectedSeats.has(id)) {
+                    selectedSeats.delete(id);
+                    seat.classList.remove("selected");
+                    seat.setAttribute("aria-pressed", "false");
+                } else {
+                    selectedSeats.add(id);
+                    seat.classList.add("selected");
+                    seat.setAttribute("aria-pressed", "true");
+                }
+
+                updateSummary();
+            });
+
+            seat.setAttribute("aria-pressed", "false");
+            rowElement.appendChild(seat);
         }
 
-        seat.onclick = () => {
-            document.querySelectorAll(".seat.selected")
-                .forEach(x => x.classList.remove("selected"));
+        container.appendChild(rowElement);
+    });
 
-            seat.classList.add("selected");
-            selected.textContent = "صندلی انتخاب‌شده: " + id;
+    function updateSummary() {
+        const seats = [...selectedSeats].sort();
+
+        selectedText.textContent = seats.length
+            ? "صندلی‌های انتخاب‌شده: " + seats.join("، ")
+            : "هنوز صندلی انتخاب نشده.";
+
+        seatCount.textContent = "تعداد صندلی: " + seats.length;
+        seatError.hidden = true;
+    }
+
+    continueButton.addEventListener("click", () => {
+        if (!ticketChoice) {
+            seatError.textContent =
+                "ابتدا از صفحه رزرو، یک سانس و نوع بلیت انتخاب کن.";
+            seatError.hidden = false;
+            return;
+        }
+
+        if (selectedSeats.size === 0) {
+            seatError.textContent = "برای ادامه، حداقل یک صندلی انتخاب کن.";
+            seatError.hidden = false;
+            return;
+        }
+
+        const reservationData = {
+            ...ticketChoice,
+            seats: [...selectedSeats].sort()
         };
 
-        container.appendChild(seat);
-    }
-});
-</script>
+        sessionStorage.setItem(
+            "torabReservation",
+            JSON.stringify(reservationData)
+        );
 
+        window.location.href = "buyer.html";
+    });
+</script>
 </body>
 </html>
