@@ -33,7 +33,6 @@
             height: 16px;
             display: inline-block;
             border-radius: 4px;
-            background: #39362e;
         }
 
         .legend-seat.available {
@@ -41,13 +40,8 @@
             border: 1px solid #b7a36a;
         }
 
-        .legend-seat.chosen {
-            background: #d6b14d;
-        }
-
-        .legend-seat.unavailable {
-            background: #633d3d;
-        }
+        .legend-seat.chosen { background: #d6b14d; }
+        .legend-seat.unavailable { background: #633d3d; }
 
         .stage {
             max-width: 420px;
@@ -70,8 +64,10 @@
 
         .row-label {
             width: 22px;
+            flex-shrink: 0;
             color: #b7a36a;
             font-size: 13px;
+            text-align: center;
         }
 
         .seats {
@@ -117,16 +113,57 @@
             outline-offset: 2px;
         }
 
-        .seat-summary {
-            margin: 22px 0;
-            padding: 16px;
-            border: 1px solid #39362e;
-            border-radius: 10px;
-            background: #121210;
+        /* فاکتور رزرو */
+        .seat-summary.invoice {
+            margin: 28px auto;
+            padding: 22px;
+            border: 1px solid #625333;
+            border-radius: 14px;
+            background: linear-gradient(145deg, #171713, #0f0f0d);
         }
 
-        .seat-summary p + p {
-            margin-top: 6px;
+        .invoice h2 {
+            margin: 0 0 16px;
+            color: #d6b14d;
+            font-size: 20px;
+        }
+
+        .invoice-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 11px 0;
+            border-bottom: 1px solid #302d25;
+            font-size: 14px;
+        }
+
+        .invoice-row span { color: #b8b3a7; }
+
+        .invoice-row strong {
+            text-align: left;
+            overflow-wrap: anywhere;
+        }
+
+        .invoice-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-top: 16px;
+            padding-top: 15px;
+            color: #f1eee7;
+        }
+
+        .invoice-total strong {
+            color: #d6b14d;
+            font-size: 20px;
+        }
+
+        .invoice #selectedSeat {
+            margin-top: 14px;
+            color: #b8b3a7;
+            font-size: 12px;
         }
 
         .seat-error {
@@ -139,18 +176,26 @@
             display: block;
             width: 100%;
             text-align: center;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        #performanceInfo {
+            margin-top: 12px;
+            color: #b7a36a;
         }
 
         @media (max-width: 420px) {
-            .seat-row {
-                gap: 5px;
-            }
+            .seat-row { gap: 5px; }
 
             .seat {
                 width: 30px;
                 height: 31px;
                 font-size: 11px;
             }
+
+            .seat-summary.invoice { padding: 16px 12px; }
+            .invoice-total strong { font-size: 17px; }
         }
     </style>
 </head>
@@ -176,10 +221,36 @@
 
     <div id="seats" class="seats" aria-label="نقشه صندلی‌های سالن"></div>
 
-    <div class="seat-summary">
+    <section class="seat-summary invoice" aria-labelledby="invoiceTitle">
+        <h2 id="invoiceTitle">فاکتور رزرو</h2>
+
+        <div class="invoice-row">
+            <span>نوع بلیت</span>
+            <strong id="invoiceTicketType">—</strong>
+        </div>
+
+        <div class="invoice-row">
+            <span>قیمت هر بلیت</span>
+            <strong id="invoiceUnitPrice">—</strong>
+        </div>
+
+        <div class="invoice-row">
+            <span>تعداد صندلی</span>
+            <strong id="seatCount">۰</strong>
+        </div>
+
+        <div class="invoice-row">
+            <span>صندلی‌ها</span>
+            <strong id="invoiceSeats">—</strong>
+        </div>
+
+        <div class="invoice-total">
+            <span>مبلغ قابل پرداخت</span>
+            <strong id="invoiceTotal">۰ تومان</strong>
+        </div>
+
         <p id="selectedSeat" aria-live="polite">هنوز صندلی انتخاب نشده.</p>
-        <p id="seatCount">تعداد صندلی: ۰</p>
-    </div>
+    </section>
 
     <p id="seatError" class="seat-error" role="alert" hidden></p>
 
@@ -200,22 +271,64 @@
     const continueButton = document.getElementById("continueButton");
     const performanceInfo = document.getElementById("performanceInfo");
 
-    // این موارد فعلاً نمونه‌اند؛ بعداً از دیتابیس خوانده می‌شوند.
+    const invoiceTicketType = document.getElementById("invoiceTicketType");
+    const invoiceUnitPrice = document.getElementById("invoiceUnitPrice");
+    const invoiceSeats = document.getElementById("invoiceSeats");
+    const invoiceTotal = document.getElementById("invoiceTotal");
+
+    // وضعیت صندلی‌ها فعلاً نمونه است.
     const sold = ["A1", "B4", "D7"];
 
-    const ticketChoice = JSON.parse(
-        sessionStorage.getItem("torabTicketChoice") || "null"
-    );
+    let ticketChoice = null;
+
+    try {
+        ticketChoice = JSON.parse(
+            sessionStorage.getItem("torabTicketChoice") || "null"
+        );
+    } catch (error) {
+        ticketChoice = null;
+    }
 
     const selectedSeats = new Set();
 
-    if (ticketChoice) {
+    const ticketNames = {
+        full: "عادی",
+        half: "نیم‌بها",
+        cultural: "نذری"
+    };
+
+    // قیمت‌های تعریف‌شده برای هر نوع بلیت
+    const ticketPrices = {
+        full: 200000,
+        half: 100000,
+        cultural: 0
+    };
+
+    const ticketType =
+        ticketChoice && ticketNames[ticketChoice.type]
+            ? ticketChoice.type
+            : null;
+
+    const unitPrice = ticketType ? ticketPrices[ticketType] : 0;
+
+    function formatToman(amount) {
+        return new Intl.NumberFormat("fa-IR").format(amount) + " تومان";
+    }
+
+    if (ticketChoice && ticketType) {
         performanceInfo.textContent =
             "سانس انتخاب‌شده: " +
             ticketChoice.date + "، ساعت " + ticketChoice.time;
+
+        invoiceTicketType.textContent = ticketNames[ticketType];
+
+        invoiceUnitPrice.textContent = unitPrice === 0
+            ? "رایگان"
+            : formatToman(unitPrice);
     } else {
-        performanceInfo.textContent =
-            "هنوز سانسی انتخاب نکرده‌ای.";
+        performanceInfo.textContent = "هنوز سانسی انتخاب نکرده‌ای.";
+        invoiceTicketType.textContent = "انتخاب نشده";
+        invoiceUnitPrice.textContent = "—";
     }
 
     ["A", "B", "C", "D", "E", "F"].forEach(row => {
@@ -235,11 +348,15 @@
             seat.textContent = i;
             seat.className = "seat";
             seat.setAttribute("aria-label", "صندلی " + id);
+            seat.setAttribute("aria-pressed", "false");
 
             if (sold.includes(id)) {
                 seat.classList.add("sold");
                 seat.disabled = true;
-                seat.setAttribute("aria-label", "صندلی " + id + " فروخته‌شده");
+                seat.setAttribute(
+                    "aria-label",
+                    "صندلی " + id + " فروخته‌شده"
+                );
             }
 
             seat.addEventListener("click", () => {
@@ -256,7 +373,6 @@
                 updateSummary();
             });
 
-            seat.setAttribute("aria-pressed", "false");
             rowElement.appendChild(seat);
         }
 
@@ -265,17 +381,33 @@
 
     function updateSummary() {
         const seats = [...selectedSeats].sort();
+        const count = seats.length;
+        const total = count * unitPrice;
 
-        selectedText.textContent = seats.length
+        selectedText.textContent = count
             ? "صندلی‌های انتخاب‌شده: " + seats.join("، ")
             : "هنوز صندلی انتخاب نشده.";
 
-        seatCount.textContent = "تعداد صندلی: " + seats.length;
+        seatCount.textContent =
+            new Intl.NumberFormat("fa-IR").format(count);
+
+        invoiceSeats.textContent = count ? seats.join("، ") : "—";
+
+        if (count === 0) {
+            invoiceTotal.textContent = "۰ تومان";
+        } else if (unitPrice === 0) {
+            invoiceTotal.textContent = "رایگان";
+        } else {
+            invoiceTotal.textContent = formatToman(total);
+        }
+
         seatError.hidden = true;
     }
 
+    updateSummary();
+
     continueButton.addEventListener("click", () => {
-        if (!ticketChoice) {
+        if (!ticketChoice || !ticketType) {
             seatError.textContent =
                 "ابتدا از صفحه رزرو، یک سانس و نوع بلیت انتخاب کن.";
             seatError.hidden = false;
@@ -283,14 +415,19 @@
         }
 
         if (selectedSeats.size === 0) {
-            seatError.textContent = "برای ادامه، حداقل یک صندلی انتخاب کن.";
+            seatError.textContent =
+                "برای ادامه، حداقل یک صندلی انتخاب کن.";
             seatError.hidden = false;
             return;
         }
 
         const reservationData = {
-            ...ticketChoice,
-            seats: [...selectedSeats].sort()
+            date: ticketChoice.date,
+            time: ticketChoice.time,
+            type: ticketType,
+            price: unitPrice,
+            seats: [...selectedSeats].sort(),
+            total: selectedSeats.size * unitPrice
         };
 
         sessionStorage.setItem(
