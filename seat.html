@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>انتخاب صندلی | تراب</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo">تراب <span>گروه هنری نمایشی</span></a>
+</header>
+
+<main class="page">
+    <h1>انتخاب صندلی</h1>
+    <p class="page-intro">صندلی موردنظر خود را انتخاب کنید.</p>
+
+    <div class="stage">صحنه</div>
+
+    <div id="seats" class="seats"></div>
+
+    <p id="selectedSeat">هنوز صندلی انتخاب نشده</p>
+
+    <a href="buyer.html" class="btn">ادامه</a>
+</main>
+
+<footer>
+    <p>© ۱۴۰۵ گروه هنری تراب</p>
+</footer>
+
+<script>
+const container = document.getElementById("seats");
+const selected = document.getElementById("selectedSeat");
+
+const sold = ["A1", "B4", "D7"];
+
+["A","B","C","D","E","F"].forEach(row => {
+    for(let i = 1; i <= 8; i++){
+        const seat = document.createElement("button");
+        const id = row + i;
+
+        seat.textContent = i;
+        seat.className = "seat";
+
+        if(sold.includes(id)){
+            seat.classList.add("sold");
+            seat.disabled = true;
+        }
+
+        seat.onclick = () => {
+            document.querySelectorAll(".seat.selected")
+                .forEach(x => x.classList.remove("selected"));
+
+            seat.classList.add("selected");
+            selected.textContent = "صندلی انتخاب‌شده: " + id;
+        };
+
+        container.appendChild(seat);
+    }
+});
+</script>
+
+</body>
+</html>

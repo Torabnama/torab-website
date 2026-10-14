@@ -1,0 +1,1228 @@
+/* =========================================
+   TORAB — حریم
+   Clean stylesheet
+   ========================================= */
+
+/* ---------- متغیرها و تنظیمات پایه ---------- */
+
+:root {
+    --kh-gold: #c6a044;
+    --kh-gold-light: #ddbd68;
+    --kh-bg: #080807;
+    --kh-panel: #10100e;
+    --kh-text: #f1eee7;
+    --kh-muted: #aaa69d;
+    --kh-line: rgba(198, 160, 68, 0.20);
+    --kh-border: rgba(255, 255, 255, 0.07);
+    --kh-transition: 0.25s ease;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    background: var(--kh-bg);
+    scroll-padding-top: 20px;
+}
+
+body {
+    margin: 0;
+    background: var(--kh-bg);
+    color: var(--kh-text);
+    font-family: "Vazirmatn", Tahoma, sans-serif;
+    font-size: 14px;
+    line-height: 2;
+    overflow-x: hidden;
+}
+
+body.harim-lightbox-open {
+    overflow: hidden;
+}
+
+a {
+    color: inherit;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+button {
+    color: inherit;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+a,
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid var(--kh-gold-light);
+    outline-offset: 4px;
+}
+
+/* ---------- هدر ---------- */
+
+.harim-header {
+    position: relative;
+    z-index: 5;
+    direction: rtl;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 18px 5%;
+    background: #0d0d0b;
+    border-bottom: 1px solid rgba(198, 160, 68, 0.22);
+}
+
+/* نام گروه و زیرعنوان */
+
+.harim-brand,
+.harim-logo {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    color: var(--kh-gold-light);
+    text-decoration: none;
+    line-height: 1.7;
+}
+
+.harim-brand-name {
+    color: var(--kh-gold-light);
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.harim-brand-subtitle {
+    color: var(--kh-muted);
+    font-size: 11px;
+    font-weight: 400;
+}
+
+.harim-logo {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.harim-logo span {
+    color: var(--kh-muted);
+    font-size: 10px;
+    font-weight: 300;
+}
+
+/* لینک‌های منو */
+
+.harim-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 26px;
+    min-width: 0;
+}
+
+.harim-nav a {
+    color: #ddd8ce;
+    font-size: 13px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color var(--kh-transition);
+}
+
+.harim-nav a:hover {
+    color: var(--kh-gold-light);
+}
+
+/* دکمه گرد بازگشت */
+
+.harim-back {
+    display: flex;
+    flex: 0 0 42px;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--kh-gold);
+    border-radius: 50%;
+    color: var(--kh-gold-light);
+    background: transparent;
+    font-size: 25px;
+    line-height: 1;
+    text-decoration: none;
+    transition:
+        background var(--kh-transition),
+        color var(--kh-transition),
+        transform var(--kh-transition);
+}
+
+.harim-back:hover {
+    color: var(--kh-bg);
+    background: var(--kh-gold);
+    transform: translateX(3px);
+}
+
+/* ---------- عرض کلی صفحه ---------- */
+
+.harim-page {
+    width: min(1100px, 88%);
+    margin-inline: auto;
+}
+
+.harim-section {
+    padding: 65px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.045);
+}
+
+/* ---------- معرفی اصلی نمایش ---------- */
+
+.harim-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    align-items: center;
+    gap: clamp(35px, 6vw, 80px);
+    padding: 65px 0 75px;
+}
+
+.harim-poster-wrap {
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+    max-width: 340px;
+    margin-inline: auto;
+}
+
+.harim-poster-glow {
+    position: absolute;
+    z-index: -1;
+    inset: 12% 7%;
+    background: radial-gradient(
+        ellipse,
+        rgba(198, 160, 68, 0.25),
+        rgba(130, 84, 44, 0.10) 48%,
+        transparent 75%
+    );
+    filter: blur(35px);
+    pointer-events: none;
+}
+
+.harim-poster {
+    display: block;
+    width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.harim-intro {
+    min-width: 0;
+}
+
+.harim-eyebrow {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: var(--kh-gold);
+    font-size: 11px;
+    letter-spacing: 0.2px;
+}
+
+.harim-intro h1 {
+    position: relative;
+    margin: 0;
+    padding-right: 15px;
+    color: var(--kh-text);
+    font-size: clamp(24px, 3vw, 34px);
+    font-weight: 600;
+    line-height: 1.9;
+}
+
+.harim-intro h1::before {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 2px;
+    height: 42px;
+    background: var(--kh-gold);
+    content: "";
+    transform: translateY(-50%);
+}
+
+.harim-title-line {
+    width: 62px;
+    height: 1px;
+    margin: 17px 0 23px;
+    background: var(--kh-gold);
+}
+
+.harim-description {
+    margin: 0 0 15px;
+    color: #ddd8ce;
+    font-size: 14px;
+    line-height: 2.5;
+}
+
+.harim-note {
+    margin: 0;
+    color: var(--kh-muted);
+    font-size: 12px;
+    line-height: 2.2;
+}
+
+/* خلاصه نمایش در معرفی */
+
+.harim-intro-summary {
+    margin-top: 18px;
+    padding: 15px 18px;
+    background: linear-gradient(
+        110deg,
+        rgba(198, 160, 68, 0.055),
+        rgba(255, 255, 255, 0.012)
+    );
+    border-right: 2px solid var(--kh-gold);
+    border-radius: 5px;
+}
+
+.harim-intro-summary h2 {
+    margin: 0 0 5px;
+    color: var(--kh-gold-light);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.harim-intro-summary p {
+    margin: 0;
+    color: #d8d3ca;
+    font-size: 13px;
+    line-height: 2.2;
+}
+
+/* ---------- اطلاعات اجرا ---------- */
+
+.harim-facts {
+    margin: 28px 0;
+    border-top: 1px solid var(--kh-line);
+}
+
+.harim-fact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 14px 3px;
+    border-bottom: 1px solid var(--kh-border);
+}
+
+.harim-fact span {
+    color: var(--kh-gold-light);
+    font-size: 12px;
+}
+
+.harim-fact strong {
+    color: var(--kh-text);
+    font-size: 12px;
+    font-weight: 400;
+    text-align: left;
+}
+
+.harim-fact1 strong {
+    color: var(--kh-text);
+    font-size: 12px;
+    font-weight: 400;
+    text-align: right;
+}
+
+/* ---------- دکمه‌ها ---------- */
+
+.harim-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.harim-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 10px 25px;
+    border: 1px solid var(--kh-gold);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.harim-btn:hover {
+    transform: translateY(-2px);
+}
+
+.harim-btn-primary {
+    color: #11100c;
+    background: var(--kh-gold);
+}
+
+.harim-btn-primary:hover {
+    color: var(--kh-gold-light);
+    background: transparent;
+}
+
+.harim-btn-outline {
+    color: var(--kh-gold-light);
+    background: transparent;
+}
+
+.harim-btn-outline:hover {
+    color: #11100c;
+    background: var(--kh-gold);
+}
+
+/* ---------- عنوان بخش‌ها ---------- */
+
+.harim-section-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.harim-section-mark {
+    flex: 0 0 2px;
+    width: 2px;
+    height: 27px;
+    background: var(--kh-gold);
+}
+
+.harim-section-heading h2 {
+    margin: 0;
+    color: var(--kh-gold-light);
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.9;
+}
+
+.harim-section-subtitle {
+    margin: -7px 0 25px;
+    color: var(--kh-muted);
+    font-size: 12px;
+}
+
+/* ---------- خلاصه داستان ---------- */
+
+.harim-story {
+    padding: 24px 27px;
+    background: linear-gradient(
+        110deg,
+        rgba(198, 160, 68, 0.045),
+        rgba(255, 255, 255, 0.012)
+    );
+    border-right: 1px solid var(--kh-gold);
+    border-radius: 4px;
+}
+
+.harim-story p {
+    margin: 0;
+    color: #d8d3ca;
+    font-size: 14px;
+    line-height: 2.5;
+}
+
+/* ---------- گالری افقی ---------- */
+
+.harim-gallery {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    border-radius: 10px;
+}
+
+.harim-gallery::-webkit-scrollbar {
+    display: none;
+}
+
+.harim-gallery-track {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    width: max-content;
+    padding: 3px 2px 15px;
+}
+
+.harim-gallery-item {
+    flex: 0 0 280px;
+    width: 280px;
+    height: 205px;
+    margin: 0;
+    overflow: hidden;
+    scroll-snap-align: start;
+    background: #11110f;
+    border: 1px solid rgba(198, 160, 68, 0.15);
+    border-radius: 9px;
+}
+
+.harim-gallery-item img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: zoom-in;
+    transition: transform 0.4s ease;
+}
+
+.harim-gallery-item:hover img {
+    transform: scale(1.04);
+}
+
+/* کنترل‌های قبلی و بعدی گالری */
+
+.harim-gallery-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 17px;
+    margin-top: 12px;
+    color: var(--kh-muted);
+    font-size: 11px;
+}
+
+.harim-gallery-controls button {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    color: var(--kh-gold-light);
+    background: transparent;
+    border: 1px solid var(--kh-line);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.harim-gallery-controls button:hover {
+    background: rgba(198, 160, 68, 0.12);
+}
+
+/* نقطه‌های انتخاب تصویر؛ هر دو نام کلاس فعال پشتیبانی می‌شوند */
+
+.harim-gallery-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 18px 0 25px;
+    direction: ltr;
+}
+
+.harim-gallery-dots button,
+.harim-gallery-dot {
+    flex: 0 0 auto;
+    width: 9px;
+    height: 9px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(221, 189, 104, 0.35);
+    cursor: pointer;
+    transition:
+        width 0.25s ease,
+        background 0.25s ease,
+        transform 0.25s ease;
+}
+
+.harim-gallery-dots button.active,
+.harim-gallery-dot.active,
+.harim-gallery-dot.is-active {
+    width: 20px;
+    border-radius: 999px;
+    background: var(--kh-gold-light);
+    transform: scale(1.05);
+}
+
+/* ---------- نمایش بزرگ تصاویر ---------- */
+
+.harim-lightbox {
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 60px 5vw;
+    background: rgba(0, 0, 0, 0.92);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+        opacity 0.28s ease,
+        visibility 0.28s ease;
+}
+
+.harim-lightbox.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.harim-lightbox > img {
+    width: auto;
+    height: auto;
+    max-width: min(78vw, 1000px);
+    max-height: 82vh;
+    object-fit: contain;
+    border: 1px solid rgba(198, 160, 68, 0.35);
+    border-radius: 8px;
+    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.6);
+    transform: scale(0.94);
+    transition: transform 0.28s ease;
+}
+
+.harim-lightbox.is-open > img {
+    transform: scale(1);
+}
+
+.harim-lightbox-close,
+.harim-lightbox-arrow {
+    display: grid;
+    place-items: center;
+    color: var(--kh-gold-light);
+    background: rgba(15, 15, 13, 0.85);
+    border: 1px solid var(--kh-line);
+    cursor: pointer;
+}
+
+.harim-lightbox-close {
+    position: absolute;
+    top: 18px;
+    left: 22px;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 28px;
+    line-height: 1;
+}
+
+.harim-lightbox-arrow {
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 30px;
+}
+
+/* ---------- کارت بازیگران ---------- */
+
+/* چیدمان کارت‌های بازیگران */
+.harim-actors-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.harim-actor {
+    min-width: 0;
+    padding: 23px 15px 20px;
+    text-align: center;
+    background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.025),
+        rgba(255, 255, 255, 0.006)
+    );
+    border: 1px solid rgba(198, 160, 68, 0.13);
+    border-radius: 13px;
+    transition:
+        border-color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.harim-actor:hover {
+    border-color: rgba(198, 160, 68, 0.5);
+    transform: translateY(-3px);
+}
+
+.harim-actor-image {
+    width: 112px;
+    height: 112px;
+    margin: 0 auto 15px;
+    padding: 4px;
+    border: 1px solid var(--kh-gold);
+    border-radius: 50%;
+    background: #0a0a09;
+}
+
+.harim-actor-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.harim-actor h3 {
+    margin: 0 0 4px;
+    color: var(--kh-text);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.harim-actor > span {
+    color: var(--kh-gold);
+    font-size: 11px;
+}
+
+/* ---------- اسامی بیشتر ---------- */
+
+.harim-more-actors {
+    margin-top: 22px;
+    padding: 20px 23px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(198, 160, 68, 0.13);
+    border-radius: 8px;
+}
+
+.harim-more-actors[hidden] {
+    display: none !important;
+}
+
+.harim-more-actors h3 {
+    margin: 0 0 10px;
+    color: var(--kh-gold-light);
+    font-size: 14px;
+}
+
+.harim-more-actors ul {
+    margin: 0;
+    padding-right: 20px;
+}
+
+.harim-more-actors li {
+    padding: 5px 0;
+    color: #ddd8ce;
+    font-size: 13px;
+}
+
+.harim-show-more {
+    display: block;
+    margin: 27px auto 0;
+    padding: 8px 17px;
+    color: var(--kh-gold-light);
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--kh-line);
+    font-family: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    transition: color var(--kh-transition);
+}
+
+.harim-show-more:hover {
+    color: var(--kh-text);
+}
+
+@media (max-width: 650px) {
+    .harim-actors-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .harim-actor {
+        padding: 14px 5px;
+    }
+
+    .harim-actor-image {
+        width: 76px;
+        height: 76px;
+    }
+
+    .harim-actor h3 {
+        font-size: 11px;
+    }
+}
+
+/* ---------- عوامل نمایش ---------- */
+
+.harim-credits p {
+    max-width: 700px;
+    margin: 0;
+    color: var(--kh-muted);
+    font-size: 13px;
+    line-height: 2.5;
+}
+
+/* ---------- بخش رزرو ---------- */
+
+.harim-booking {
+    padding: 65px 20px 75px;
+    text-align: center;
+}
+
+.harim-booking .harim-title-line {
+    margin: 0 auto 25px;
+}
+
+.harim-booking h2 {
+    margin: 0 0 13px;
+    color: var(--kh-gold-light);
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 2;
+}
+
+.harim-booking p {
+    max-width: 540px;
+    margin: 0 auto 25px;
+    color: var(--kh-muted);
+    font-size: 13px;
+    line-height: 2.3;
+}
+
+.harim-booking .harim-btn {
+    min-width: 210px;
+}
+
+/* ---------- پابرگ ---------- */
+
+.harim-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 24px 7%;
+    background: #060605;
+    border-top: 1px solid rgba(198, 160, 68, 0.13);
+}
+
+.harim-footer p {
+    margin: 0;
+    color: #77736b;
+    font-size: 11px;
+}
+
+.harim-footer a {
+    color: var(--kh-gold);
+    font-size: 11px;
+    text-decoration: none;
+}
+
+/* ---------- تبلت ---------- */
+
+@media (max-width: 850px) {
+    .harim-page {
+        width: 90%;
+    }
+
+    .harim-hero {
+        gap: 30px;
+    }
+
+    .harim-poster-wrap {
+        max-width: 300px;
+    }
+
+    .harim-actors-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .harim-header {
+        gap: 16px;
+        padding-inline: 4%;
+    }
+
+    .harim-nav {
+        gap: 18px;
+    }
+}
+
+/* ---------- موبایل ---------- */
+
+@media (max-width: 650px) {
+    body {
+        font-size: 13px;
+    }
+
+    /* هدر در یک ردیف باقی می‌ماند */
+    .harim-header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 13px 4%;
+    }
+
+    .harim-brand,
+    .harim-logo {
+        flex-shrink: 0;
+    }
+
+    .harim-brand-name {
+        font-size: 20px;
+    }
+
+    .harim-brand-subtitle {
+        font-size: 9px;
+    }
+
+    .harim-logo {
+        font-size: 19px;
+    }
+
+    .harim-logo span {
+        font-size: 9px;
+    }
+
+    .harim-nav {
+        flex: 1 1 auto;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: nowrap;
+        gap: clamp(8px, 2.4vw, 15px);
+        min-width: 0;
+    }
+
+    .harim-nav a {
+        font-size: clamp(9px, 2.5vw, 11px);
+    }
+
+    .harim-back {
+        flex-basis: 34px;
+        width: 34px;
+        height: 34px;
+        font-size: 21px;
+    }
+
+    .harim-page {
+        width: 88%;
+    }
+
+    .harim-hero {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 32px;
+        padding: 30px 0 45px;
+    }
+
+    .harim-poster-wrap {
+        width: 100%;
+        max-width: 285px;
+    }
+
+    .harim-poster {
+        max-height: 390px;
+    }
+
+    .harim-intro h1 {
+        font-size: 24px;
+    }
+
+    .harim-description {
+        font-size: 13px;
+    }
+
+    .harim-intro-summary {
+        margin-top: 14px;
+        padding: 14px;
+    }
+
+    .harim-facts {
+        margin: 22px 0;
+    }
+
+    .harim-fact {
+        padding: 12px 2px;
+    }
+
+    .harim-fact span,
+    .harim-fact strong {
+        font-size: 11px;
+    }
+
+    .harim-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .harim-btn {
+        min-width: 0;
+        padding: 10px 12px;
+        font-size: 11px;
+    }
+
+    .harim-section {
+        padding: 42px 0;
+    }
+
+    .harim-section-heading h2 {
+        font-size: 20px;
+    }
+
+    .harim-story {
+        padding: 18px;
+    }
+
+    .harim-story p {
+        font-size: 13px;
+    }
+
+    .harim-gallery-item {
+        flex-basis: 78vw;
+        width: 78vw;
+        height: 57vw;
+        max-height: 260px;
+    }
+
+    .harim-gallery-controls {
+        gap: 10px;
+        font-size: 10px;
+    }
+
+    .harim-gallery-dots {
+        gap: 7px;
+        margin: 14px 0 22px;
+    }
+
+    .harim-actors-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .harim-actor {
+        padding: 18px 8px 16px;
+    }
+
+    .harim-actor-image {
+        width: 92px;
+        height: 92px;
+    }
+
+    .harim-actor h3 {
+        font-size: 12px;
+    }
+
+    .harim-more-actors {
+        padding: 17px;
+    }
+
+    .harim-booking {
+        padding: 45px 5px 55px;
+    }
+
+    .harim -booking h2 {
+        font-size: 19px;
+    }
+
+    .harim-lightbox {
+        gap: 8px;
+        padding: 65px 10px 25px;
+    }
+
+    .harim-lightbox > img {
+        max-width: calc(100vw - 86px);
+        max-height: 75vh;
+    }
+
+    .harim-lightbox-arrow {
+        flex-basis: 32px;
+        width: 32px;
+        height: 32px;
+        font-size: 24px;
+    }
+
+    .harim-lightbox-close {
+        top: 12px;
+        left: 12px;
+    }
+
+    .harim-footer {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* ---------- موبایل‌های کوچک ---------- */
+
+@media (max-width: 380px) {
+    .harim-header {
+        gap: 7px;
+        padding-inline: 3%;
+    }
+
+    .harim-brand-name {
+        font-size: 17px;
+    }
+
+    .harim-brand-subtitle {
+        font-size: 8px;
+    }
+
+    .harim-nav {
+        gap: 7px;
+    }
+
+    .harim-nav a {
+        font-size: 9px;
+    }
+
+    .harim-back {
+        flex-basis: 30px;
+        width: 30px;
+        height: 30px;
+        font-size: 19px;
+    }
+
+    .harim-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .harim-actor-image {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+/* ---------- کاهش حرکت ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+/* اصلاح نهایی چیدمان بازیگران */
+.harim-actors-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 18px;
+    width: 100%;
+}
+
+@media (max-width: 650px) {
+    .harim-actors-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 8px;
+    }
+
+    .harim-actor {
+        padding: 12px 4px;
+    }
+
+    .harim-actor-image {
+        width: 75px;
+        height: 75px;
+    }
+
+    .harim-actor h3 {
+        font-size: 10px;
+        overflow-wrap: anywhere;
+    }
+}
+
+/* فاصله کمتر برای گالری */
+.harim-section.harim-gallery-section {
+    padding-top: 15px !important;
+}
+
+/* کاهش فاصله بالای بخش بازیگران */
+.harim-section.harim-actors-section {
+    padding-top: 10px !important;
+    margin-top: -50px !important;
+}
+
+
+/* دکمه شیشه‌ای به‌زودی روی پوستر */
+.harim-poster-wrap {
+    position: relative;
+}
+
+.harim-coming-soon {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 2;
+
+    padding: 5px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 999px;
+
+    background: rgba(15, 15, 13, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    color: #ddbd68;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.harim-actors-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 24px;
+    padding: 0;
+    margin: 20px 0 0;
+    list-style: none;
+}
+
+.harim-actors-list li {
+    text-align: center;
+    line-height: 1.9;
+    padding: 8px;
+    border-bottom: 1px solid rgba(221, 189, 104, 0.2);
+    font-size: 13px;
+}
+
+@media (max-width: 480px) {
+    .harim-actors-list {
+        gap: 8px 12px;
+    }
+
+    .harim-actors-list li {
+        font-size: 12px;
+        padding: 6px 2px;
+    }
+}
+.entezar-actors-list .harim-actors-inline {
+    grid-column: 1 / -1;
+    text-align: center;
+}
