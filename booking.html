@@ -1,57 +1,255 @@
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رزرو بلیت | تراب</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>رزرو بلیت | تراب</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .booking-steps {
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      margin-bottom: 55px;
+      color: #b7a36a;
+      text-align: center;
+    }
+    .booking-step { display: grid; gap: 8px; justify-items: center; }
+    .booking-step span {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border: 1px solid #b7a36a;
+      border-radius: 50%;
+    }
+    .booking-step.active span { background: #b7a36a; color: #111; }
+    .booking-heading { margin-bottom: 35px; }
+    .eyebrow { color: #b7a36a; letter-spacing: 2px; font-size: 12px; }
+    .session-list { display: grid; gap: 16px; }
+    .session-list .session {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 24px;
+      border: 1px solid #39362e;
+      border-radius: 12px;
+      background: #121210;
+      color: #f1eee7;
+      text-decoration: none;
+      transition: border-color .2s, transform .2s;
+    }
+    .session-list .session:hover {
+      border-color: #b7a36a;
+      transform: translateY(-2px);
+    }
+    .session-info, .session-action { display: grid; gap: 8px; }
+    .session-info strong { font-size: 21px; }
+    .session-info > span:last-child { color: #b8b3a7; }
+    .session-label { color: #b7a36a; font-size: 12px; }
+    .session-action { justify-items: end; }
+    .session-action b { color: #d6b14d; }
+    .session-arrow { font-size: 22px; }
+    .booking-note { color: #aaa398; font-size: 13px; margin-top: 25px; }
+
+    .ticket-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0,0,0,.82);
+      padding: 20px;
+      align-items: center;
+      justify-content: center;
+      overflow-y: auto;
+    }
+    .ticket-modal.open { display: flex; }
+    .ticket-dialog {
+      width: 100%;
+      max-width: 480px;
+      padding: 28px;
+      background: #11110f;
+      color: #f1eee7;
+      border: 1px solid #625333;
+      border-radius: 16px;
+      position: relative;
+    }
+    .ticket-dialog h2 { margin: 8px 0; }
+    .ticket-dialog > p { color: #b8b3a7; line-height: 1.9; }
+    .modal-close {
+      position: absolute;
+      left: 16px;
+      top: 12px;
+      border: 0;
+      background: transparent;
+      color: #f1eee7;
+      font-size: 26px;
+      cursor: pointer;
+    }
+    .ticket-options { display: grid; gap: 12px; margin-top: 24px; }
+    .ticket-option {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      text-align: right;
+      padding: 17px;
+      background: #191916;
+      color: #f1eee7;
+      border: 1px solid #49402a;
+      border-radius: 10px;
+      cursor: pointer;
+      font: inherit;
+    }
+    .ticket-option:hover, .ticket-option:focus-visible {
+      border-color: #d6b14d;
+      outline: none;
+    }
+    .ticket-option small { display: block; color: #aaa398; margin-top: 6px; }
+    .ticket-price { color: #d6b14d; white-space: nowrap; font-weight: bold; }
+    .modal-hint { font-size: 12px; margin-top: 18px; }
+    @media (max-width: 520px) {
+      .booking-steps { gap: 14px; }
+      .booking-step small { font-size: 11px; }
+      .session-list .session { padding: 17px; }
+      .session-info strong { font-size: 18px; }
+      .session-action b { font-size: 13px; }
+      .ticket-dialog { padding: 24px 18px; }
+      .ticket-option { padding: 14px; }
+    }
+  </style>
 </head>
 <body>
-
 <header>
-    <a href="index.html" class="logo">تراب <span>گروه هنری نمایشی</span></a>
-    <nav>
-        <a href="index.html">خانه</a>
-        <a href="shows.html">اجراها</a>
-    </nav>
+  <a href="index.html" class="logo">تراب <span>گروه هنری نمایشی</span></a>
+  <nav>
+    <a href="index.html">خانه</a>
+    <a href="shows.html">اجراها</a>
+  </nav>
 </header>
 
-<main class="page">
+<main class="page booking-page">
+  <div class="booking-steps">
+    <div class="booking-step active"><span>۱</span><small>انتخاب سانس</small></div>
+    <div class="booking-step"><span>۲</span><small>انتخاب صندلی</small></div>
+    <div class="booking-step"><span>۳</span><small>اطلاعات خریدار</small></div>
+  </div>
+
+  <section class="booking-heading">
+    <p class="eyebrow">TORAB • TICKET RESERVATION</p>
     <h1>انتخاب سانس</h1>
-    <p class="page-intro">سانس موردنظر خود را انتخاب کنید.</p>
+    <p class="page-intro">سانس موردنظرت رو انتخاب کن و نوع بلیتت رو مشخص کن.</p>
+  </section>
 
-    <div class="session-list">
+  <div class="session-list">
+    <button type="button" class="session" data-date="۲۱ تیر" data-time="۱۹:۰۰">
+      <div class="session-info">
+        <span class="session-label">سانس اول</span>
+        <strong>۲۱ تیر</strong>
+        <span>ساعت ۱۹:۰۰</span>
+      </div>
+      <div class="session-action"><b>انتخاب سانس</b><span class="session-arrow">←</span></div>
+    </button>
 
-        <a href="seat.html" class="session">
-            <div>
-                <strong>۲۱ تیر</strong>
-                <span>ساعت ۱۹:۰۰</span>
-            </div>
-            <b>۱۵۰,۰۰۰ تومان</b>
-        </a>
+    <button type="button" class="session" data-date="۲۲ تیر" data-time="۱۹:۰۰">
+      <div class="session-info">
+        <span class="session-label">سانس دوم</span>
+        <strong>۲۲ تیر</strong>
+        <span>ساعت ۱۹:۰۰</span>
+      </div>
+      <div class="session-action"><b>انتخاب سانس</b><span class="session-arrow">←</span></div>
+    </button>
 
-        <a href="seat.html" class="session">
-            <div>
-                <strong>۲۲ تیر</strong>
-                <span>ساعت ۱۹:۰۰</span>
-            </div>
-            <b>۱۵۰,۰۰۰ تومان</b>
-        </a>
+    <button type="button" class="session" data-date="۲۳ تیر" data-time="۲۱:۰۰">
+      <div class="session-info">
+        <span class="session-label">سانس سوم</span>
+        <strong>۲۳ تیر</strong>
+        <span>ساعت ۲۱:۰۰</span>
+      </div>
+      <div class="session-action"><b>انتخاب سانس</b><span class="session-arrow">←</span></div>
+    </button>
+  </div>
 
-        <a href="seat.html" class="session">
-            <div>
-                <strong>۲۳ تیر</strong>
-                <span>ساعت ۲۱:۰۰</span>
-            </div>
-            <b>۱۵۰,۰۰۰ تومان</b>
-        </a>
-
-    </div>
+  <p class="booking-note">این مرحله نمایشی است؛ رزرو و پرداخت هنوز به سیستم واقعی متصل نیست.</p>
 </main>
 
-<footer>
-    <p>© ۱۴۰۵ گروه هنری تراب</p>
-</footer>
+<div class="ticket-modal" id="ticketModal" role="dialog"
+     aria-modal="true" aria-labelledby="modalTitle">
+  <div class="ticket-dialog">
+    <button class="modal-close" id="closeModal" type="button"
+            aria-label="بستن پنجره">×</button>
+    <p class="eyebrow">TORAB • TICKET</p>
+    <h2 id="modalTitle">نوع خرید بلیت</h2>
+    <p id="chosenSession">سانس انتخاب‌شده</p>
 
+    <div class="ticket-options">
+      <button class="ticket-option" type="button" data-type="full" data-price="200000">
+        <span>خرید با قیمت اصلی<small>بلیت با قیمت کامل</small></span>
+        <span class="ticket-price">۲۰۰٬۰۰۰ تومان</span>
+      </button>
+      <button class="ticket-option" type="button" data-type="half" data-price="100000">
+        <span>خرید نیم‌بها<small>بلیت با قیمت نیم‌بها</small></span>
+        <span class="ticket-price">۱۰۰٬۰۰۰ تومان</span>
+      </button>
+      <button class="ticket-option" type="button" data-type="cultural" data-price="0">
+        <span>نذر فرهنگی<small>دریافت بلیت رایگان</small></span>
+        <span class="ticket-price">رایگان</span>
+      </button>
+    </div>
+
+    <p class="modal-hint">با انتخاب هر گزینه، به مرحله انتخاب صندلی می‌ری.</p>
+  </div>
+</div>
+
+<footer><p>© ۱۴۰۵ گروه هنری تراب</p></footer>
+
+<script>
+  const modal = document.getElementById("ticketModal");
+  const chosenSession = document.getElementById("chosenSession");
+  let selectedPerformance = null;
+
+  document.querySelectorAll(".session[data-date]").forEach(button => {
+    button.addEventListener("click", () => {
+      selectedPerformance = {
+        date: button.dataset.date,
+        time: button.dataset.time
+      };
+      chosenSession.textContent =
+        "سانس انتخاب‌شده: " + selectedPerformance.date +
+        "، ساعت " + selectedPerformance.time;
+      modal.classList.add("open");
+      document.getElementById("closeModal").focus();
+    });
+  });
+
+  function closeModal() {
+    modal.classList.remove("open");
+  }
+
+  document.getElementById("closeModal").addEventListener("click", closeModal);
+  modal.addEventListener("click", event => {
+    if (event.target === modal) closeModal();
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") closeModal();
+  });
+
+  document.querySelectorAll(".ticket-option").forEach(button => {
+    button.addEventListener("click", () => {
+      const choice = {
+        date: selectedPerformance.date,
+        time: selectedPerformance.time,
+        type: button.dataset.type,
+        price: Number(button.dataset.price)
+      };
+
+      sessionStorage.setItem("torabTicketChoice", JSON.stringify(choice));
+      window.location.href = "seat.html";
+    });
+  });
+</script>
 </body>
 </html>
