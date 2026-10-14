@@ -40,8 +40,13 @@
             border: 1px solid #b7a36a;
         }
 
-        .legend-seat.chosen { background: #d6b14d; }
-        .legend-seat.unavailable { background: #633d3d; }
+        .legend-seat.chosen {
+            background: #d6b14d;
+        }
+
+        .legend-seat.unavailable {
+            background: #633d3d;
+        }
 
         .stage {
             max-width: 420px;
@@ -138,7 +143,9 @@
             font-size: 14px;
         }
 
-        .invoice-row span { color: #b8b3a7; }
+        .invoice-row span {
+            color: #b8b3a7;
+        }
 
         .invoice-row strong {
             text-align: left;
@@ -172,12 +179,70 @@
             font-size: 13px;
         }
 
+        /* دکمه ادامه: طلایی، گرد و شیشه‌ای */
         .continue-button {
             display: block;
             width: 100%;
-            text-align: center;
+            margin-top: 18px;
+            padding: 15px 24px;
+
             font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            color: #17150f;
+            text-align: center;
+
+            background: linear-gradient(
+                135deg,
+                rgba(232, 199, 105, 0.96),
+                rgba(183, 163, 106, 0.88)
+            );
+
+            border: 1px solid rgba(241, 222, 164, 0.65);
+            border-radius: 14px;
+
+            box-shadow:
+                0 6px 22px rgba(214, 177, 77, 0.14),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+
             cursor: pointer;
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .continue-button:hover {
+            background: linear-gradient(
+                135deg,
+                #f0d785,
+                #d6b14d
+            );
+
+            box-shadow:
+                0 8px 28px rgba(214, 177, 77, 0.24),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+
+            transform: translateY(-2px);
+        }
+
+        .continue-button:active {
+            transform: translateY(0) scale(0.99);
+            box-shadow: 0 3px 12px rgba(214, 177, 77, 0.15);
+        }
+
+        .continue-button:focus-visible {
+            outline: 2px solid #f1eee7;
+            outline-offset: 4px;
+        }
+
+        .continue-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
 
         #performanceInfo {
@@ -186,7 +251,9 @@
         }
 
         @media (max-width: 420px) {
-            .seat-row { gap: 5px; }
+            .seat-row {
+                gap: 5px;
+            }
 
             .seat {
                 width: 30px;
@@ -194,8 +261,25 @@
                 font-size: 11px;
             }
 
-            .seat-summary.invoice { padding: 16px 12px; }
-            .invoice-total strong { font-size: 17px; }
+            .seat-summary.invoice {
+                padding: 16px 12px;
+            }
+
+            .invoice-total strong {
+                font-size: 17px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .continue-button,
+            .seat {
+                transition: none;
+            }
+
+            .continue-button:hover,
+            .seat:hover:not(:disabled) {
+                transform: none;
+            }
         }
     </style>
 </head>
@@ -214,9 +298,18 @@
     <div class="stage">صحنه</div>
 
     <div class="seat-legend">
-        <span class="legend-item"><span class="legend-seat available"></span> آزاد</span>
-        <span class="legend-item"><span class="legend-seat chosen"></span> انتخاب‌شده</span>
-        <span class="legend-item"><span class="legend-seat unavailable"></span> فروخته‌شده</span>
+        <span class="legend-item">
+            <span class="legend-seat available"></span>
+            آزاد
+        </span>
+        <span class="legend-item">
+            <span class="legend-seat chosen"></span>
+            انتخاب‌شده
+        </span>
+        <span class="legend-item">
+            <span class="legend-seat unavailable"></span>
+            فروخته‌شده
+        </span>
     </div>
 
     <div id="seats" class="seats" aria-label="نقشه صندلی‌های سالن"></div>
@@ -249,7 +342,9 @@
             <strong id="invoiceTotal">۰ تومان</strong>
         </div>
 
-        <p id="selectedSeat" aria-live="polite">هنوز صندلی انتخاب نشده.</p>
+        <p id="selectedSeat" aria-live="polite">
+            هنوز صندلی انتخاب نشده.
+        </p>
     </section>
 
     <p id="seatError" class="seat-error" role="alert" hidden></p>
@@ -260,7 +355,7 @@
 </main>
 
 <footer>
-    <p>© ۱۴۰۵ گروه هنری تراب</p>
+    <p>© تمامی حقوق مادی و معنوی این وب‌سایت متعلق به گروه هنری تراب است.</p>
 </footer>
 
 <script>
@@ -297,7 +392,7 @@
         cultural: "نذری"
     };
 
-    // قیمت‌های تعریف‌شده برای هر نوع بلیت
+    // قیمت‌ها در این نسخه نمایشی ثابت هستند.
     const ticketPrices = {
         full: 200000,
         half: 100000,
