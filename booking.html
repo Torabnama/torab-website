@@ -6,16 +6,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>رزرو بلیت | تراب</title>
   <link rel="stylesheet" href="css/style.css">
+
   <style>
+    /* مراحل رزرو */
     .booking-steps {
       display: flex;
       justify-content: center;
       gap: 28px;
-      margin-bottom: 55px;
+      margin-bottom: 45px;
       color: #b7a36a;
       text-align: center;
     }
-    .booking-step { display: grid; gap: 8px; justify-items: center; }
+
+    .booking-step {
+      display: grid;
+      gap: 8px;
+      justify-items: center;
+    }
+
     .booking-step span {
       display: grid;
       place-items: center;
@@ -24,201 +32,309 @@
       border: 1px solid #b7a36a;
       border-radius: 50%;
     }
-    .booking-step.active span { background: #b7a36a; color: #111; }
-    .booking-heading { margin-bottom: 35px; }
-    .eyebrow { color: #b7a36a; letter-spacing: 2px; font-size: 12px; }
-    .session-list { display: grid; gap: 16px; }
+
+    .booking-step.active span {
+      background: #b7a36a;
+      color: #111;
+    }
+
+    .booking-heading {
+      margin-bottom: 30px;
+    }
+
+    .eyebrow {
+      color: #b7a36a;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    /* کارت‌های سانس */
+    .session-list {
+      display: grid;
+      gap: 12px;
+    }
+
     .session-list .session {
+      width: 100%;
+      min-height: 0;
       display: flex;
+      flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      gap: 20px;
-      padding: 24px;
+      gap: 12px;
+      padding: 14px 18px;
       border: 1px solid #39362e;
-      border-radius: 12px;
+      border-radius: 10px;
       background: #121210;
       color: #f1eee7;
-      text-decoration: none;
-      transition: border-color .2s, transform .2s;
+      text-align: right;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+      
+      /* استفاده از فونت اصلی سایت */
+      font: inherit;
+      line-height: inherit;
     }
-    .session-list .session:hover {
-      border-color: #b7a36a;
-      transform: translateY(-2px);
-    }
-    .session-info, .session-action { display: grid; gap: 8px; }
-    .session-info strong { font-size: 21px; }
-    .session-info > span:last-child { color: #b8b3a7; }
-    .session-label { color: #b7a36a; font-size: 12px; }
-    .session-action { justify-items: end; }
-    .session-action b { color: #d6b14d; }
-    .session-arrow { font-size: 22px; }
-    .booking-note { color: #aaa398; font-size: 13px; margin-top: 25px; }
 
+    .session-list .session:hover,
+    .session-list .session:focus-visible {
+      border-color: #b7a36a;
+      outline: none;
+    }
+
+    .session-info {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+    }
+
+    .session-info .session-label {
+      color: #b7a36a;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .session-info strong {
+      color: #f1eee7;
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    .session-info > span:last-child {
+      color: #b8b3a7;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .session-action {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .session-action b {
+      color: #d6b14d;
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .session-arrow {
+      color: #b7a36a;
+      font-size: 19px;
+      line-height: 1;
+    }
+
+    .booking-note {
+      margin-top: 22px;
+      color: #aaa398;
+      font-size: 12px;
+    }
+
+    /* پنجره انتخاب نوع بلیت */
     .ticket-modal {
       display: none;
       position: fixed;
       inset: 0;
       z-index: 1000;
-      background: rgba(0,0,0,.82);
-      padding: 20px;
       align-items: center;
       justify-content: center;
       overflow-y: auto;
+      padding: 18px;
+      background: rgba(0, 0, 0, .82);
     }
-    .ticket-modal.open { display: flex; }
+
+    .ticket-modal.open {
+      display: flex;
+    }
+
     .ticket-dialog {
+      position: relative;
       width: 100%;
-      max-width: 480px;
+      max-width: 460px;
       padding: 28px;
+      border: 1px solid #625333;
+      border-radius: 14px;
       background: #11110f;
       color: #f1eee7;
-      border: 1px solid #625333;
-      border-radius: 16px;
-      position: relative;
     }
-    .ticket-dialog h2 { margin: 8px 0; }
-    .ticket-dialog > p { color: #b8b3a7; line-height: 1.9; }
+
+    .ticket-dialog h2 {
+      margin: 8px 0;
+      font-size: 23px;
+    }
+
+    .ticket-dialog > p {
+      color: #b8b3a7;
+      line-height: 1.9;
+    }
+
     .modal-close {
       position: absolute;
-      left: 16px;
-      top: 12px;
+      top: 8px;
+      left: 14px;
+      padding: 0 5px;
       border: 0;
       background: transparent;
       color: #f1eee7;
-      font-size: 26px;
+      font: inherit;
+      font-size: 27px;
       cursor: pointer;
     }
-    .ticket-options { display: grid; gap: 12px; margin-top: 24px; }
+
+    .ticket-options {
+      display: grid;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
     .ticket-option {
+      width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 12px;
-      width: 100%;
-      text-align: right;
-      padding: 17px;
+      padding: 15px;
+      border: 1px solid #49402a;
+      border-radius: 9px;
       background: #191916;
       color: #f1eee7;
-      border: 1px solid #49402a;
-      border-radius: 10px;
+      text-align: right;
       cursor: pointer;
       font: inherit;
+      line-height: inherit;
+      transition: border-color .2s, background .2s;
     }
-    .ticket-option:hover, .ticket-option:focus-visible {
+
+    .ticket-option:hover,
+    .ticket-option:focus-visible {
       border-color: #d6b14d;
       outline: none;
     }
-    .ticket-option small { display: block; color: #aaa398; margin-top: 6px; }
-    .ticket-price { color: #d6b14d; white-space: nowrap; font-weight: bold; }
-    .modal-hint { font-size: 12px; margin-top: 18px; }
-    @media (max-width: 520px) {
-      .booking-steps { gap: 14px; }
-      .booking-step small { font-size: 11px; }
-      .session-list .session { padding: 17px; }
-      .session-info strong { font-size: 18px; }
-      .session-action b { font-size: 13px; }
-      .ticket-dialog { padding: 24px 18px; }
-      .ticket-option { padding: 14px; }
+
+    .ticket-option > span:first-child {
+      min-width: 0;
     }
-   
-.session-list .session,
-.session-list .session *,
-.session-list button,
-.session-list button * {
-    font-family: "Vazirmatn", sans-serif !important;
-    font-weight: inherit;
-    letter-spacing: normal;
-}
- 
-/* اصلاح کارت‌های سانس برای موبایل */
-.session-list {
-  gap: 12px;
-}
 
-.session-list .session {
-  min-height: auto;
-  padding: 16px 18px;
-  flex-direction: row;
-  align-items: center;
-  gap: 12px;
-  border-radius: 10px;
-}
+    .ticket-option small {
+      display: block;
+      margin-top: 3px;
+      color: #aaa398;
+      font-size: 12px;
+    }
 
-.session-info {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-}
+    .ticket-price {
+      flex-shrink: 0;
+      color: #d6b14d;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
 
-.session-info strong {
-  font-size: 19px;
-  line-height: 1.5;
-}
+    .modal-hint {
+      margin-top: 15px;
+      font-size: 12px;
+    }
 
-.session-info > span:last-child {
-  font-size: 13px;
-}
+    /* همه عناصر این صفحه از فونت اصلی سایت استفاده می‌کنند */
+    .booking-page,
+    .booking-page button,
+    .ticket-modal,
+    .ticket-modal button {
+      font-family: inherit;
+    }
 
-.session-label {
-  font-size: 11px;
-}
+    @media (max-width: 520px) {
+      .booking-steps {
+        gap: 16px;
+        margin-bottom: 32px;
+      }
 
-.session-action {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-items: initial;
-  gap: 10px;
-  flex-shrink: 0;
-}
+      .booking-step small {
+        font-size: 11px;
+      }
 
-.session-action b {
-  font-size: 13px;
-  white-space: nowrap;
-}
+      .booking-heading {
+        margin-bottom: 24px;
+      }
 
-.session-arrow {
-  font-size: 20px;
-}
+      .session-list {
+        gap: 10px;
+      }
 
-@media (max-width: 520px) {
-  .session-list {
-    gap: 10px;
-  }
+      .session-list .session {
+        padding: 12px 13px;
+        gap: 8px;
+      }
 
-  .session-list .session {
-    padding: 13px 14px;
-    gap: 8px;
-  }
+      .session-info strong {
+        font-size: 17px;
+      }
 
-  .session-info strong {
-    font-size: 17px;
-  }
+      .session-info > span:last-child {
+        font-size: 12px;
+      }
 
-  .session-action {
-    gap: 6px;
-  }
+      .session-action {
+        gap: 5px;
+      }
 
-  .session-action b {
-    font-size: 12px;
-  }
+      .session-action b {
+        font-size: 12px;
+      }
 
-  .session-arrow {
-    font-size: 17px;
-  }
-}
+      .session-arrow {
+        font-size: 17px;
+      }
 
-.session-list .session,
-.session-list .session * {
-  font-family: "Vazirmatn", sans-serif !important;
-}
+      .ticket-dialog {
+        padding: 25px 17px 20px;
+      }
 
+      .ticket-dialog h2 {
+        font-size: 21px;
+      }
+
+      .ticket-option {
+        padding: 13px 11px;
+        gap: 8px;
+      }
+
+      .ticket-option small {
+        font-size: 11px;
+      }
+
+      .ticket-price {
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 350px) {
+      .session-list .session {
+        padding: 11px 9px;
+      }
+
+      .session-action b {
+        font-size: 11px;
+      }
+
+      .ticket-price {
+        font-size: 11px;
+      }
+    }
   </style>
 </head>
+
 <body>
 <header>
-  <a href="index.html" class="logo">تراب <span>گروه هنری نمایشی</span></a>
+  <a href="index.html" class="logo">
+    تراب <span>گروه هنری نمایشی</span>
+  </a>
   <nav>
     <a href="index.html">خانه</a>
     <a href="shows.html">اجراها</a>
@@ -226,84 +342,134 @@
 </header>
 
 <main class="page booking-page">
+
   <div class="booking-steps">
-    <div class="booking-step active"><span>۱</span><small>انتخاب سانس</small></div>
-    <div class="booking-step"><span>۲</span><small>انتخاب صندلی</small></div>
-    <div class="booking-step"><span>۳</span><small>اطلاعات خریدار</small></div>
+    <div class="booking-step active">
+      <span>۱</span>
+      <small>انتخاب سانس</small>
+    </div>
+    <div class="booking-step">
+      <span>۲</span>
+      <small>انتخاب صندلی</small>
+    </div>
+    <div class="booking-step">
+      <span>۳</span>
+      <small>اطلاعات خریدار</small>
+    </div>
   </div>
 
   <section class="booking-heading">
     <p class="eyebrow">TORAB • TICKET RESERVATION</p>
     <h1>انتخاب سانس</h1>
-    <p class="page-intro">سانس موردنظرت رو انتخاب کن و نوع بلیتت رو مشخص کن.</p>
+    <p class="page-intro">
+      سانس موردنظرت رو انتخاب کن و نوع بلیتت رو مشخص کن.
+    </p>
   </section>
 
   <div class="session-list">
-    <button type="button" class="session" data-date="۲۱ تیر" data-time="۱۹:۰۰">
+
+    <button type="button" class="session"
+      data-date="۲۱ تیر" data-time="۱۹:۰۰">
       <div class="session-info">
         <span class="session-label">سانس اول</span>
         <strong>۲۱ تیر</strong>
         <span>ساعت ۱۹:۰۰</span>
       </div>
-      <div class="session-action"><b>انتخاب سانس</b><span class="session-arrow">←</span></div>
+      <div class="session-action">
+        <b>انتخاب سانس</b>
+        <span class="session-arrow">←</span>
+      </div>
     </button>
 
-    <button type="button" class="session" data-date="۲۲ تیر" data-time="۱۹:۰۰">
+    <button type="button" class="session"
+      data-date="۲۲ تیر" data-time="۱۹:۰۰">
       <div class="session-info">
         <span class="session-label">سانس دوم</span>
         <strong>۲۲ تیر</strong>
         <span>ساعت ۱۹:۰۰</span>
       </div>
-      <div class="session-action"><b>انتخاب سانس</b><span class="session-arrow">←</span></div>
+      <div class="session-action">
+        <b>انتخاب سانس</b>
+        <span class="session-arrow">←</span>
+      </div>
     </button>
 
-    <button type="button" class="session" data-date="۲۳ تیر" data-time="۲۱:۰۰">
+    <button type="button" class="session"
+      data-date="۲۳ تیر" data-time="۲۱:۰۰">
       <div class="session-info">
         <span class="session-label">سانس سوم</span>
         <strong>۲۳ تیر</strong>
         <span>ساعت ۲۱:۰۰</span>
       </div>
-      <div class="session-action"><b>انتخاب سانس</b><span class="session-arrow">←</span></div>
+      <div class="session-action">
+        <b>انتخاب سانس</b>
+        <span class="session-arrow">←</span>
+      </div>
     </button>
+
   </div>
 
-  <p class="booking-note">این مرحله نمایشی است؛ رزرو و پرداخت هنوز به سیستم واقعی متصل نیست.</p>
+  <p class="booking-note">
+    این مرحله نمایشی است؛ رزرو و پرداخت هنوز به سیستم واقعی متصل نیست.
+  </p>
 </main>
 
-<div class="ticket-modal" id="ticketModal" role="dialog"
-     aria-modal="true" aria-labelledby="modalTitle">
+<div class="ticket-modal" id="ticketModal"
+  role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+
   <div class="ticket-dialog">
-    <button class="modal-close" id="closeModal" type="button"
-            aria-label="بستن پنجره">×</button>
+    <button class="modal-close" id="closeModal"
+      type="button" aria-label="بستن پنجره">×</button>
+
     <p class="eyebrow">TORAB • TICKET</p>
     <h2 id="modalTitle">نوع خرید بلیت</h2>
     <p id="chosenSession">سانس انتخاب‌شده</p>
 
     <div class="ticket-options">
-      <button class="ticket-option" type="button" data-type="full" data-price="200000">
-        <span>خرید با قیمت اصلی<small>بلیت با قیمت کامل</small></span>
+      <button class="ticket-option" type="button"
+        data-type="full" data-price="200000">
+        <span>
+          خرید با قیمت اصلی
+          <small>بلیت با قیمت کامل</small>
+        </span>
         <span class="ticket-price">۲۰۰٬۰۰۰ تومان</span>
       </button>
-      <button class="ticket-option" type="button" data-type="half" data-price="100000">
-        <span>خرید نیم‌بها<small>بلیت با قیمت نیم‌بها</small></span>
+
+      <button class="ticket-option" type="button"
+        data-type="half" data-price="100000">
+        <span>
+          خرید نیم‌بها
+          <small>بلیت با قیمت نیم‌بها</small>
+        </span>
         <span class="ticket-price">۱۰۰٬۰۰۰ تومان</span>
       </button>
-      <button class="ticket-option" type="button" data-type="cultural" data-price="0">
-        <span>نذر فرهنگی<small>دریافت بلیت رایگان</small></span>
+
+      <button class="ticket-option" type="button"
+        data-type="cultural" data-price="0">
+        <span>
+          نذر فرهنگی
+          <small>دریافت بلیت رایگان</small>
+        </span>
         <span class="ticket-price">رایگان</span>
       </button>
     </div>
 
-    <p class="modal-hint">با انتخاب هر گزینه، به مرحله انتخاب صندلی می‌ری.</p>
+    <p class="modal-hint">
+      با انتخاب هر گزینه، به مرحله انتخاب صندلی می‌ری.
+    </p>
   </div>
 </div>
 
-<footer><p>© ۱۴۰۵ گروه هنری تراب</p></footer>
+<footer>
+  <p>© ۱۴۰۵ گروه هنری تراب</p>
+</footer>
 
 <script>
   const modal = document.getElementById("ticketModal");
   const chosenSession = document.getElementById("chosenSession");
+  const closeButton = document.getElementById("closeModal");
   let selectedPerformance = null;
+  let lastSessionButton = null;
 
   document.querySelectorAll(".session[data-date]").forEach(button => {
     button.addEventListener("click", () => {
@@ -311,28 +477,39 @@
         date: button.dataset.date,
         time: button.dataset.time
       };
+
+      lastSessionButton = button;
+
       chosenSession.textContent =
         "سانس انتخاب‌شده: " + selectedPerformance.date +
         "، ساعت " + selectedPerformance.time;
+
       modal.classList.add("open");
-      document.getElementById("closeModal").focus();
+      closeButton.focus();
     });
   });
 
   function closeModal() {
     modal.classList.remove("open");
+    if (lastSessionButton) lastSessionButton.focus();
   }
 
-  document.getElementById("closeModal").addEventListener("click", closeModal);
+  closeButton.addEventListener("click", closeModal);
+
   modal.addEventListener("click", event => {
     if (event.target === modal) closeModal();
   });
+
   document.addEventListener("keydown", event => {
-    if (event.key === "Escape") closeModal();
+    if (event.key === "Escape" && modal.classList.contains("open")) {
+      closeModal();
+    }
   });
 
   document.querySelectorAll(".ticket-option").forEach(button => {
     button.addEventListener("click", () => {
+      if (!selectedPerformance) return;
+
       const choice = {
         date: selectedPerformance.date,
         time: selectedPerformance.time,
@@ -340,7 +517,11 @@
         price: Number(button.dataset.price)
       };
 
-      sessionStorage.setItem("torabTicketChoice", JSON.stringify(choice));
+      sessionStorage.setItem(
+        "torabTicketChoice",
+        JSON.stringify(choice)
+      );
+
       window.location.href = "seat.html";
     });
   });
