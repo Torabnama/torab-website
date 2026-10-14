@@ -418,3 +418,368 @@ footer p { color: #777; font-size: 12px; }
     .media-heading .section-title-row { gap: 11px; }
     .media-heading .section-title-row h1 { font-size: 22px; line-height: 1.5; }
 }
+
+
+/* =========================================================
+   TARAB — BOOKING FLOW
+   استایل اختصاصی صفحات رزرو
+   ========================================================= */
+
+.booking-page {
+    width: 88%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 90px 0 110px;
+}
+
+.booking-page .page-intro {
+    margin-bottom: 34px;
+}
+
+/* مراحل رزرو */
+.booking-steps {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 42px;
+    color: #8e897f;
+    font-size: 13px;
+}
+
+.booking-steps span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.booking-steps .active {
+    color: #d6b14d;
+}
+
+.booking-steps .step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 27px;
+    height: 27px;
+    border: 1px solid #575248;
+    border-radius: 50%;
+}
+
+.booking-steps .active .step-number {
+    color: #0b0b0a;
+    background: #d6b14d;
+    border-color: #d6b14d;
+}
+
+.booking-steps .step-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,.12);
+}
+
+/* کارت‌های سانس */
+.session-list {
+    display: grid;
+    gap: 14px;
+    margin-top: 30px;
+}
+
+.session-list .session {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 24px 26px;
+    margin: 0;
+    color: #f1eee7;
+    background: #111110;
+    border: 1px solid rgba(255,255,255,.09);
+    border-radius: 10px;
+    text-decoration: none;
+    transition: border-color .25s ease, background .25s ease;
+}
+
+.session-list .session:hover {
+    background: #171612;
+    border-color: rgba(214,177,77,.6);
+}
+
+.session-list .session strong,
+.session-list .session span {
+    display: block;
+}
+
+.session-list .session strong {
+    margin-bottom: 5px;
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.session-list .session span {
+    color: #9d988e;
+    font-size: 13px;
+}
+
+.session-list .session b {
+    color: #d6b14d;
+    font-size: 15px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* نقشه صندلی‌ها */
+.seat-booking {
+    padding: 30px 24px;
+    margin-top: 28px;
+    background: #111110;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+}
+
+.seat-booking .stage {
+    width: 78%;
+    max-width: 520px;
+    padding: 12px;
+    margin: 0 auto 38px;
+    color: #171510;
+    background: #d6b14d;
+    border-radius: 3px 3px 24px 24px;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+.seat-booking .seats {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 10px;
+    max-width: 540px;
+    margin: 0 auto;
+}
+
+.seat-booking .seat {
+    min-width: 0;
+    height: 42px;
+    color: #ded8cb;
+    background: #1b1a17;
+    border: 1px solid #575248;
+    border-radius: 5px 5px 2px 2px;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.seat-booking .seat:hover:not(:disabled) {
+    color: #d6b14d;
+    border-color: #d6b14d;
+}
+
+.seat-booking .seat.selected {
+    color: #11110f;
+    background: #d6b14d;
+    border-color: #d6b14d;
+}
+
+.seat-booking .seat.sold,
+.seat-booking .seat:disabled {
+    color: #77736b;
+    background: #302e29;
+    border-color: #302e29;
+    cursor: not-allowed;
+}
+
+.seat-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin: 30px 0;
+    color: #aaa69d;
+    font-size: 12px;
+}
+
+.seat-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.seat-legend i {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    background: #1b1a17;
+    border: 1px solid #575248;
+    border-radius: 3px;
+}
+
+.seat-legend .legend-selected {
+    background: #d6b14d;
+    border-color: #d6b14d;
+}
+
+.seat-legend .legend-sold {
+    background: #302e29;
+    border-color: #302e29;
+}
+
+/* فرم اطلاعات خریدار */
+.booking-form {
+    max-width: 700px;
+    padding: 30px;
+    margin: 30px 0;
+    background: #111110;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+}
+
+.booking-form label {
+    display: block;
+    margin: 20px 0 8px;
+    color: #c5bfb4;
+    font-size: 13px;
+}
+
+.booking-form input {
+    display: block;
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 14px;
+    color: #f1eee7;
+    background: #0b0b0a;
+    border: 1px solid #3c3933;
+    border-radius: 5px;
+    outline: none;
+    font: inherit;
+}
+
+.booking-form input:focus {
+    border-color: #d6b14d;
+}
+
+.booking-form input::placeholder {
+    color: #6f6a61;
+}
+
+/* خلاصه سفارش */
+.booking-summary {
+    padding: 24px;
+    margin: 28px 0;
+    background: #111110;
+    border: 1px solid rgba(214,177,77,.25);
+    border-radius: 10px;
+}
+
+.booking-summary h2 {
+    margin-bottom: 16px;
+    color: #f1eee7;
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.booking-summary .summary-row {
+    gap: 18px;
+    color: #aaa69d;
+    font-size: 13px;
+}
+
+.booking-summary .summary-row strong {
+    color: #d6b14d;
+    font-weight: 500;
+}
+
+/* دکمه‌های فرایند رزرو */
+.booking-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 12px 26px;
+    color: #11110f;
+    background: #d6b14d;
+    border: 1px solid #d6b14d;
+    border-radius: 5px;
+    text-decoration: none;
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    transition: .25s ease;
+}
+
+.booking-btn:hover {
+    background: #e2c36c;
+    border-color: #e2c36c;
+}
+
+.booking-btn:focus-visible,
+.booking-form input:focus-visible,
+.seat-booking .seat:focus-visible {
+    outline: 2px solid #f1eee7;
+    outline-offset: 3px;
+}
+
+@media (max-width: 768px) {
+    .booking-page {
+        width: 86%;
+        padding: 65px 0 80px;
+    }
+
+    .booking-steps {
+        gap: 7px;
+        margin-bottom: 30px;
+        font-size: 11px;
+    }
+
+    .booking-steps .step-number {
+        width: 24px;
+        height: 24px;
+    }
+
+    .session-list .session {
+        padding: 19px 16px;
+        gap: 12px;
+    }
+
+    .session-list .session strong {
+        font-size: 15px;
+    }
+
+    .session-list .session b {
+        font-size: 13px;
+    }
+
+    .seat-booking {
+        padding: 22px 12px;
+    }
+
+    .seat-booking .seats {
+        gap: 6px;
+    }
+
+    .seat-booking .seat {
+        height: 36px;
+        font-size: 11px;
+    }
+
+    .seat-booking .stage {
+        width: 86%;
+        margin-bottom: 30px;
+    }
+
+    .seat-legend {
+        gap: 12px;
+        font-size: 11px;
+    }
+
+    .booking-form {
+        padding: 20px 16px;
+    }
+
+    .booking-summary {
+        padding: 18px;
+    }
+
+    .booking-btn {
+        width: 100%;
+    }
+}
