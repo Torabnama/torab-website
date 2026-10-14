@@ -120,6 +120,86 @@
       .ticket-dialog { padding: 24px 18px; }
       .ticket-option { padding: 14px; }
     }
+    
+/* اصلاح کارت‌های سانس برای موبایل */
+.session-list {
+  gap: 12px;
+}
+
+.session-list .session {
+  min-height: auto;
+  padding: 16px 18px;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  border-radius: 10px;
+}
+
+.session-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.session-info strong {
+  font-size: 19px;
+  line-height: 1.5;
+}
+
+.session-info > span:last-child {
+  font-size: 13px;
+}
+
+.session-label {
+  font-size: 11px;
+}
+
+.session-action {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-items: initial;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.session-action b {
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.session-arrow {
+  font-size: 20px;
+}
+
+@media (max-width: 520px) {
+  .session-list {
+    gap: 10px;
+  }
+
+  .session-list .session {
+    padding: 13px 14px;
+    gap: 8px;
+  }
+
+  .session-info strong {
+    font-size: 17px;
+  }
+
+  .session-action {
+    gap: 6px;
+  }
+
+  .session-action b {
+    font-size: 12px;
+  }
+
+  .session-arrow {
+    font-size: 17px;
+  }
+}
+
   </style>
 </head>
 <body>
