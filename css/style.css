@@ -209,12 +209,58 @@ footer p { color: #777; font-size: 12px; }
 .contact-section { text-align: center; }
 .contact-section .page-intro { max-width: 650px; margin-right: auto; margin-left: auto; }
 .contact-section h1::before, .contact-section h1::after { display: none !important; content: none !important; }
-.contact-links { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; width: min(850px,90%); margin: 55px auto 0; }
-.contact-link { display: flex; flex-direction: column; align-items: flex-start; padding: 22px 25px; background: rgba(255,255,255,.025); border: 1px solid rgba(255,255,255,.08); border-radius: 12px; text-align: right; text-decoration: none; transition: .25s ease; }
-.contact-link span { color: #f1eee7; font-size: 16px; }
-.contact-link small { margin-top: 5px; color: #88847d; font-size: 12px; }
-.contact-link:hover { border-color: rgba(214,177,77,.45); transform: translateY(-2px); }
-.contact-link:hover span { color: #d6b14d; }
+```css
+.contact-links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 24px;
+    direction: rtl;
+}
+
+.contact-link {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 8px;
+    min-width: 0;
+    padding: 18px;
+    text-decoration: none;
+    text-align: right;
+    border: 1px solid rgba(205, 170, 100, 0.25);
+    border-radius: 14px;
+    background: #20201e;
+    color: #f4ead8;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.contact-link span {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.contact-link small {
+    font-size: 12px;
+    color: #b9a989;
+    overflow-wrap: anywhere;
+}
+
+.contact-link:hover {
+    border-color: #c9a66b;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 380px) {
+    .contact-links {
+        gap: 10px;
+    }
+
+    .contact-link {
+        padding: 13px;
+    }
+}
+```
 
 /* Media section and horizontal slider */
 .media-section { padding: 44px 20px 36px; background: #111110; color: #f1eee7; direction: rtl; }
