@@ -850,3 +850,12 @@ footer p { color: #777; font-size: 12px; }
     margin: 0;
     line-height: 1.4;
 }
+.contact-heading {
+    padding-right: 0;
+    margin-right: 0;
+}
+
+.contact-heading .section-title-row {
+    padding-right: 0;
+    margin-right: 0;
+}
