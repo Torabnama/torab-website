@@ -831,3 +831,22 @@ footer p { color: #777; font-size: 12px; }
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
 }
+.contact-heading {
+    margin-top: 48px;
+    margin-bottom: 16px;
+}
+
+.contact-heading .section-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.contact-heading .section-title-line {
+    flex: 0 0 auto;
+}
+
+.contact-heading h2 {
+    margin: 0;
+    line-height: 1.4;
+}
