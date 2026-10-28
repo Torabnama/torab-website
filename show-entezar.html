@@ -198,11 +198,17 @@
     <div class="entezar-actors-grid">
 
         <article class="entezar-actor">
-            <div class="entezar-actor-image">
-                <img src="images/201.webp" alt="تصویر بازیگر اول" loading="lazy">
-            </div>
-            <h3>امیرحسین قائمی</h3>
-            <span>«امید»</span>
+    <div class="entezar-actor-image">
+        <img
+            src="./images/201.webp"
+            alt="تصویر بازیگر اول"
+            loading="eager"
+            onerror="this.style.border='2px solid red'; console.log('خطا در بارگذاری عکس:', this.src)"
+        >
+    </div>
+
+    <h3>امیرحسین قائمی</h3>
+    <span>«امید»</span>
         </article>
 
         <article class="entezar-actor">
